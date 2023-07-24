@@ -61,6 +61,7 @@ const options = {
 
 const Home = () => {
   const [chartData, setChartData] = useState(null);
+  const [isPortrait, setIsPortrait] = useState(null);
 
   const labelMapping = {
     T1: "100mm",
@@ -73,10 +74,28 @@ const Home = () => {
 
   useEffect(() => {
     fetchData().then((data) => setChartData(data));
+
+    const setOrientationData = () => {
+      setIsPortrait(window.matchMedia("(orientation: portrait)").matches);
+    };
+
+    window.addEventListener("resize", setOrientationData);
+    setOrientationData();
+
+    // Clean up event listener
+    return () => window.removeEventListener("resize", setOrientationData);
   }, []);
 
   if (!chartData) {
     return <Loading />;
+  }
+
+  if (isPortrait) {
+    return (
+      <p className="flex justify-center h-screen content-center items-center">
+        Please switch your device to landscape mode
+      </p>
+    );
   }
 
   const originalLabels = Object.keys(chartData.data);
