@@ -138,7 +138,7 @@ const Home = () => {
 
   return (
     <main
-      className={`w-[80%] h-screen mx-auto m-10 sm:px-0 flex flex-row lg:flex-row items-center justify-between ${inter.className}`}
+      className={`w-[80%] h-[80%] mx-auto m-10 sm:px-0 flex flex-row lg:flex-row items-center justify-between ${inter.className}`}
     >
       <Line
         options={options}
