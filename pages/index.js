@@ -14,71 +14,9 @@ import { Line } from "react-chartjs-2";
 import { Inter } from "next/font/google";
 import Loading from "./components/loading";
 import Link from "next/link";
-import zoomPlugin from "chartjs-plugin-zoom";
-import "hammerjs";
 import Rotate from "./components/rotate";
 
 const inter = Inter({ subsets: ["latin"] });
-
-const fetchData = async () => {
-  const response = await fetch("/api/data");
-  const data = await response.json();
-  return data;
-};
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-  zoomPlugin
-);
-
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "IrriCheck Data",
-    },
-    zoom: {
-      pan: {
-        enabled: true,
-        mode: "xy",
-        speed: 20,
-        threshold: 10,
-      },
-      zoom: {
-        wheel: {
-          enabled: true,
-        },
-        pinch: {
-          enabled: true,
-        },
-        mode: "xy",
-      },
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        color: "rgba(0, 0, 0, 0)",
-      },
-    },
-    y: {
-      grid: {
-        color: "rgba(0, 0, 0, 0)",
-      },
-    },
-  },
-};
 
 const Home = () => {
   const [chartData, setChartData] = useState(null);
@@ -94,7 +32,30 @@ const Home = () => {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/api/data");
+      const data = await response.json();
+      return data;
+    };
+
     fetchData().then((data) => setChartData(data));
+
+    if (typeof window !== "undefined") {
+      import("hammerjs");
+      import("chartjs-plugin-zoom").then((zoomPlugin) => {
+        ChartJS.register(
+          CategoryScale,
+          LinearScale,
+          PointElement,
+          LineElement,
+          Title,
+          Tooltip,
+          Filler,
+          Legend,
+          zoomPlugin.default
+        );
+      });
+    }
 
     const setOrientationData = () => {
       setIsPortrait(window.matchMedia("(orientation: portrait)").matches);
@@ -103,7 +64,6 @@ const Home = () => {
     window.addEventListener("resize", setOrientationData);
     setOrientationData();
 
-    // Clean up event listener
     return () => window.removeEventListener("resize", setOrientationData);
   }, []);
 
@@ -133,6 +93,48 @@ const Home = () => {
     borderWidth: 1.5,
     pointRadius: 1,
   }));
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "IrriCheck Data",
+      },
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: "xy",
+          speed: 20,
+          threshold: 10,
+        },
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: "xy",
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          color: "rgba(0, 0, 0, 0)",
+        },
+      },
+      y: {
+        grid: {
+          color: "rgba(0, 0, 0, 0)",
+        },
+      },
+    },
+  };
 
   return (
     <main
