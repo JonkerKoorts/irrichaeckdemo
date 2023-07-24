@@ -16,6 +16,7 @@ import Loading from "./components/loading";
 import Link from "next/link";
 import zoomPlugin from "chartjs-plugin-zoom";
 import "hammerjs";
+import Rotate from "./components/rotate";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,7 +49,6 @@ const options = {
       text: "IrriCheck Data",
     },
     zoom: {
-      // Add the zoom plugin options here
       pan: {
         enabled: true,
         mode: "xy",
@@ -113,9 +113,12 @@ const Home = () => {
 
   if (isPortrait) {
     return (
-      <p className="flex justify-center h-screen content-center items-center">
-        Please switch your device to landscape mode
-      </p>
+      <div className="flex justify-between content-center items-center">
+        <Rotate />
+        <p className="flex justify-center h-screen content-center items-center">
+          Please switch your device to landscape mode
+        </p>
+      </div>
     );
   }
 
