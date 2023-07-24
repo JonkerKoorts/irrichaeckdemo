@@ -13,6 +13,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { Inter } from "next/font/google";
 import Loading from "./components/loading";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -90,12 +91,9 @@ const Home = () => {
     pointRadius: 1,
   }));
 
-  // console.log("Transformed Labels: ", labels);
-  // console.log("Generated Datasets: ", datasets);
-
   return (
     <main
-      className={`container w-[80%] h-screen mx-auto m-10 sm:px-0 flex flex-col lg:flex-row items-center justify-between ${inter.className}`}
+      className={`w-[80%] h-screen mx-auto m-10 sm:px-0 flex flex-row lg:flex-row items-center justify-between ${inter.className}`}
     >
       <Line
         options={options}
@@ -104,6 +102,12 @@ const Home = () => {
           datasets: datasets,
         }}
       />
+      <Link
+        className="absolute top-5 right-5 px-4 py-2 text-xs font-base text-center text-white bg-indigo-600 rounded focus:outline-none"
+        href="https://github.com/JonkerKoorts/irrichaeckdemo"
+      >
+        Checkout Github
+      </Link>
     </main>
   );
 };
