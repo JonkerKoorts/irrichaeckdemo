@@ -14,6 +14,8 @@ import { Line } from "react-chartjs-2";
 import { Inter } from "next/font/google";
 import Loading from "./components/loading";
 import Link from "next/link";
+import zoomPlugin from "chartjs-plugin-zoom";
+import "hammerjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +33,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Filler,
-  Legend
+  Legend,
+  zoomPlugin
 );
 
 const options = {
@@ -43,6 +46,24 @@ const options = {
     title: {
       display: true,
       text: "IrriCheck Data",
+    },
+    zoom: {
+      // Add the zoom plugin options here
+      pan: {
+        enabled: true,
+        mode: "xy",
+        speed: 20,
+        threshold: 10,
+      },
+      zoom: {
+        wheel: {
+          enabled: true,
+        },
+        pinch: {
+          enabled: true,
+        },
+        mode: "xy",
+      },
     },
   },
   scales: {
