@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -21,6 +21,11 @@ const inter = Inter({ subsets: ["latin"] });
 const Home = () => {
   const [chartData, setChartData] = useState(null);
   const [isPortrait, setIsPortrait] = useState(null);
+  const chartRef = useRef(null);
+
+  const resetZoom = () => {
+    chartRef.current.resetZoom();
+  };
 
   const labelMapping = {
     T1: "100mm",
@@ -141,12 +146,19 @@ const Home = () => {
       className={`w-[80%] h-[80%] mx-auto m-10 sm:px-0 flex flex-row lg:flex-row items-center justify-between ${inter.className}`}
     >
       <Line
+        ref={chartRef}
         options={options}
         data={{
           labels: labels,
           datasets: datasets,
         }}
       />
+      <button
+        className="absolute top-[4.5rem] left-[12.5rem] px-3 py-1 text-xs font-base text-center text-white bg-indigo-600 rounded focus:outline-none"
+        onClick={resetZoom}
+      >
+        Reset Zoom
+      </button>
       <Link
         className="absolute top-5 right-5 px-4 py-2 text-xs font-base text-center text-white bg-indigo-600 rounded focus:outline-none"
         href="https://github.com/JonkerKoorts/irrichaeckdemo"
